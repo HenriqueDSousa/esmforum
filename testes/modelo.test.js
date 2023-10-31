@@ -20,6 +20,47 @@ test('Testando cadastro de três perguntas', () => {
   expect(perguntas.length).toBe(3);
   expect(perguntas[0].texto).toBe('1 + 1 = ?');
   expect(perguntas[1].texto).toBe('2 + 2 = ?');
+  expect(perguntas[2].texto).toBe('3 + 3 = ?'); 
+
+
+  
+  //testando num respostas
+  expect(perguntas[0].num_respostas).toBe(0);
+  expect(perguntas[1].num_respostas).toBe(0);
   expect(perguntas[2].num_respostas).toBe(0);
+
+  //testando id
+  expect(perguntas[0].id_pergunta).toBe(perguntas[1].id_pergunta-1);
   expect(perguntas[1].id_pergunta).toBe(perguntas[2].id_pergunta-1);
+  expect(perguntas[2].id_pergunta).toBe(perguntas[1].id_pergunta+1);
+
+  
+  //testando get_pergunta
+  const id0 = perguntas[0].id_pergunta;
+  const id1 = perguntas[1].id_pergunta;
+  const id2 = perguntas[2].id_pergunta;
+  expect(modelo.get_pergunta(id0).texto).toBe('1 + 1 = ?');
+  expect(modelo.get_pergunta(id1).texto).toBe('2 + 2 = ?');
+  expect(modelo.get_pergunta(id2).texto).toBe('3 + 3 = ?');
+  
+  
 });
+
+
+test('Teste de cadastro de respostas', () => {
+
+  modelo.cadastrar_pergunta('1 + 1 = ?');
+  const perguntas = modelo.listar_perguntas();
+  const id = perguntas[0].id_pergunta;
+  modelo.cadastrar_resposta(id, "2");
+
+  // testando se ha 1 resposta apenas
+  expect(modelo.get_num_respostas(id)).toBe(1);
+
+  //testando se o texto da resposta esta certo
+  expect(modelo.get_respostas(id)[0].texto).toBe("2");
+
+})
+
+
+
